@@ -1,0 +1,32 @@
+traductor-literario/
+│
+├── main.py                  # Punto de entrada principal
+│
+├── config/
+│   ├── __init__.py
+│   ├── settings.py          # Configuración de la aplicación
+│   └── prompts.py           # Definición de prompts para traducción
+│
+├── core/
+│   ├── __init__.py
+│   ├── translator.py        # Lógica central de traducción
+│   ├── file_handler.py      # Manejo de formatos de archivo
+│   └── text_processor.py    # Procesamiento de texto para preservar estilo
+│
+├── services/
+│   ├── __init__.py
+│   ├── deepseek_service.py  # Integración con API DeepSeek
+│   └── openai_service.py    # Integración con API OpenAI
+│
+├── ui/
+│   ├── __init__.py
+│   └── streamlit_ui.py      # Interfaz de usuario con Streamlit
+│
+├── utils/
+│   ├── __init__.py
+│   ├── logger.py            # Sistema de logging
+│   └── helpers.py           # Funciones auxiliares
+│
+├── requirements.txt         # Dependencias
+├── .env.example             # Plantilla de variables de entorno
+└── .gitignore
