@@ -14,6 +14,10 @@ def setup_streamlit():
     st.markdown("""
     <style>
         /* Estilos personalizados */
+        .stButton>button {
+            background-color: #4CAF50 !important;
+            color: white !important;
+        }
     </style>
     """, unsafe_allow_html=True)
     
@@ -79,7 +83,8 @@ def main_ui():
         
         if st.button("Realizar Traducción Literaria", type="primary", use_container_width=True):
             try:
-                translator = LiteraryTranslator()
+                # Usar el chunk_size de la configuración
+                translator = LiteraryTranslator(chunk_size=settings.CHUNK_SIZE)
                 
                 with st.spinner("Procesando documento..."):
                     original_content = FileHandler.read_file(uploaded_file)
@@ -108,3 +113,6 @@ def main_ui():
             
             except Exception as e:
                 st.error(f"Error durante la traducción: {str(e)}")
+
+if __name__ == "__main__":
+    main_ui()
