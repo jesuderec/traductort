@@ -39,7 +39,7 @@ def load_config():
         "DEEPSEEK_API_KEY": deepseek_key,
         "OPENAI_API_KEY": openai_key,
         "DEEPSEEK_MODEL": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
-        "OPENAI_MODEL": os.getenv("OPENAI_MODEL", "gpt-4-turbo")
+        "OPENAI_MODEL": os.getenv("OPENAI_MODEL", "gpt-4o-mini")
     }
 
 settings = load_config()
