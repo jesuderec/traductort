@@ -15,7 +15,10 @@ class FileHandler:
         elif file_ext == 'docx':
             return FileHandler._read_docx(content)
         elif file_ext == 'txt':
-            return content.decode('utf-8')
+            try:
+                return content.decode('utf-8')
+            except UnicodeDecodeError:
+                return content.decode('latin-1')
         else:
             raise ValueError(f"Formato no soportado: {file_ext}")
     
