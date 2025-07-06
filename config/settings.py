@@ -14,6 +14,15 @@ class Settings:
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
         self.OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         
+        # Configuración adicional
+        self.CHUNK_SIZE = 2000  # Tamaño de fragmentos
+        self.TIMEOUT = 30       # Timeout para API
+        self.MODELS = {         # Modelos para UI
+            "DeepSeek-R1 (Literario)": "DeepSeek-R1 (Literario)",
+            "GPT-4-Turbo (Literatura Fina)": "GPT-4-Turbo (Literatura Fina)",
+            "Mixto (DeepSeek + GPT-4)": "Mixto (DeepSeek + GPT-4)"
+        }
+        
         # Validación
         self.validate()
     
