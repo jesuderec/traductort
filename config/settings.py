@@ -1,47 +1,51 @@
 import os
-from pathlib import Path
-from dotenv import load_dotenv
 import logging
+from pathlib import Path
 
-# Configurar logging
-logger = logging.getLogger(__name__)
-
-# Obtener ruta base
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Cargar variables de entorno
+# Intenta cargar dotenv pero no falla si no está instalado
 try:
-    env_path = BASE_DIR / ".env"
-    if env_path.exists():
-        load_dotenv(dotenv_path=env_path)
-    else:
-        logger.warning(".env file not found. Using system environment variables.")
-except Exception as e:
-    logger.error(f"Error loading .env file: {e}")
+    from dotenv import load_dotenv
+    DOTENV_AVAILABLE = True
+except ImportError:
+    DOTENV_AVAILABLE = False
+    logging.warning("python-dotenv no instalado. Usando variables de entorno del sistema")
 
-class Settings:
-    # DeepSeek
-    DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-    DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")  # Valor por defecto
+# Cargar variables
+def load_config():
+    # 1. Intento: Variables de entorno del sistema
+    deepseek_key = os.getenv("DEEPSEEK_API_KEY")
+    openai_key = os.getenv("OPENAI_API_KEY")
     
-    # OpenAI
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4-turbo")
+    # 2. Intento: Archivo .env (solo en desarrollo)
+    if not (deepseek_key and openai_key) and DOTENV_AVAILABLE:
+        try:
+            env_path = Path(__file__).resolve().parent.parent / ".env"
+            load_dotenv(dotenv_path=env_path)
+            deepseek_key = os.getenv("DEEPSEEK_API_KEY")
+            openai_key = os.getenv("OPENAI_API_KEY")
+        except Exception as e:
+            logging.error(f"Error cargando .env: {e}")
     
-    # Validar configuraciones
-    @classmethod
-    def validate(cls):
-        missing = []
-        if not cls.DEEPSEEK_API_KEY:
-            missing.append("DEEPSEEK_API_KEY")
-        if not cls.OPENAI_API_KEY:
-            missing.append("OPENAI_API_KEY")
-        
-        if missing:
-            logger.error(f"Missing environment variables: {', '.join(missing)}")
-            raise EnvironmentError(f"Missing required environment variables: {', '.join(missing)}")
+    # 3. Intento: Secrets de Streamlit (para producción)
+    if not (deepseek_key and openai_key):
+        try:
+            import streamlit as st
+            deepseek_key = st.secrets.get("DEEPSEEK_API_KEY")
+            openai_key = st.secrets.get("OPENAI_API_KEY")
+        except:
+            pass
+    
+    return {
+        "DEEPSEEK_API_KEY": deepseek_key,
+        "OPENAI_API_KEY": openai_key,
+        "DEEPSEEK_MODEL": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+        "OPENAI_MODEL": os.getenv("OPENAI_MODEL", "gpt-4-turbo")
+    }
 
-# Validar al importar
-Settings.validate()
+settings = load_config()
 
-settings = Settings()
+# Validación final
+if not settings["DEEPSEEK_API_KEY"]:
+    logging.error("Falta DEEPSEEK_API_KEY")
+if not settings["OPENAI_API_KEY"]:
+    logging.error("Falta OPENAI_API_KEY")
