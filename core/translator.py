@@ -1,12 +1,11 @@
 from services.deepseek_service import DeepSeekService
 from services.openai_service import OpenAIService
 from core.text_processor import TextProcessor
-from config.settings import settings
 from config.prompts import TranslationPrompts
 
 class LiteraryTranslator:
-    def __init__(self):
-        self.chunk_size = settings.CHUNK_SIZE
+    def __init__(self, chunk_size=2000):
+        self.chunk_size = chunk_size
     
     def translate(self, content, model_choice):
         if model_choice == "DeepSeek-R1 (Literario)":
