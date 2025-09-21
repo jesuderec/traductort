@@ -1,16 +1,16 @@
+import logging
 from openai import OpenAI
 from config.settings import settings
 from config.prompts import TranslationPrompts
-import logging
 
 logger = logging.getLogger(__name__)
 
 class OpenAIService:
     @classmethod
-    def translate(cls, text, prompt=None, model=None):
-        logger.info("Iniciando llamada a la API de OpenAI.")
+    def translate(cls, text, target_language, prompt=None, model=None):
+        logger.info(f"Iniciando llamada a la API de OpenAI para traducir a {target_language}.")
         if not prompt:
-            prompt = TranslationPrompts.OPENAI_PROMPT
+            prompt = TranslationPrompts.OPENAI_PROMPT.format(target_language=target_language)
         
         if not model:
             model = settings.OPENAI_MODEL
