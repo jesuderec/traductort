@@ -78,18 +78,19 @@ def render_sidebar():
         )
 
         st.markdown("---")
-        st.subheader("Opciones Avanzadas")
-        preserve_special = st.checkbox(
-            "Conservar elementos especiales", 
-            value=True,
-            help="Mantener epígrafes, notas al pie, formatos especiales"
-        )
-        cultural_notes = st.checkbox(
-            "Añadir notas culturales", 
-            value=True,
-            help="Incluir explicaciones entre [ ] para referencias culturales"
-        )
 
+        with st.expander("Opciones Avanzadas", expanded=False):
+            preserve_special = st.checkbox(
+                "Conservar elementos especiales", 
+                value=False, # <-- Valor corregido a False
+                help="Mantener epígrafes, notas al pie, formatos especiales"
+            )
+            cultural_notes = st.checkbox(
+                "Añadir notas culturales", 
+                value=False, # <-- Valor corregido a False
+                help="Incluir explicaciones entre [ ] para referencias culturales"
+            )
+        
         st.markdown("---")
         st.info("""
         **Instrucciones:**
