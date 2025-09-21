@@ -13,14 +13,17 @@ class Settings:
         self.DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
         self.OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+        self.GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+        self.GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-pro-latest")
         
         # Configuración adicional
-        self.CHUNK_SIZE = 500  # Tamaño de fragmentos
-        self.TIMEOUT = 30       # Timeout para API
-        self.MODELS = {         # Modelos para UI
+        self.CHUNK_SIZE = 500
+        self.TIMEOUT = 500
+        self.MODELS = {
             "DeepSeek-R1 (Literario)": "DeepSeek-R1 (Literario)",
             "GPT-4-Turbo (Literatura Fina)": "GPT-4-Turbo (Literatura Fina)",
-            "Mixto (DeepSeek + GPT-4)": "Mixto (DeepSeek + GPT-4)"
+            "Mixto (DeepSeek + GPT-4)": "Mixto (DeepSeek + GPT-4)",
+            "Gemini 1.5 Pro (Literario)": "Gemini 1.5 Pro (Literario)"
         }
         
         # Validación
@@ -32,6 +35,8 @@ class Settings:
             errors.append("DEEPSEEK_API_KEY no configurada")
         if not self.OPENAI_API_KEY:
             errors.append("OPENAI_API_KEY no configurada")
+        if not self.GEMINI_API_KEY:
+            errors.append("GEMINI_API_KEY no configurada")
         
         if errors:
             error_msg = "Error de configuración: " + ", ".join(errors)
@@ -41,7 +46,8 @@ class Settings:
     def __str__(self):
         return (f"Settings: "
                 f"DeepSeek({self.DEEPSEEK_MODEL}), "
-                f"OpenAI({self.OPENAI_MODEL})")
+                f"OpenAI({self.OPENAI_MODEL}), "
+                f"Gemini({self.GEMINI_MODEL})")
 
 # Crear instancia única
 try:
@@ -50,6 +56,5 @@ try:
     logger.info(str(settings))
 except EnvironmentError as e:
     logger.critical(str(e))
-    # Para permitir que la aplicación continúe en modo de solo lectura
     settings = None
     raise
