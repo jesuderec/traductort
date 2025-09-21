@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 class OpenAIService:
     @classmethod
     def translate(cls, text, prompt=None, model=None):
+        logger.info("Iniciando llamada a la API de OpenAI.")
         if not prompt:
             prompt = TranslationPrompts.OPENAI_PROMPT
         
@@ -26,7 +27,8 @@ class OpenAIService:
                 temperature=0.3,
                 max_tokens=4000
             )
+            logger.info("Llamada a la API de OpenAI exitosa.")
             return response.choices[0].message.content.strip()
         except Exception as e:
-            logger.error(f"Error OpenAI API: {str(e)}")
+            logger.error(f"Error en la API de OpenAI: {str(e)}")
             raise
