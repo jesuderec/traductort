@@ -1,6 +1,6 @@
 class TranslationPrompts:
     DEEPSEEK_PROMPT = """
-    Eres un traductor literario profesional. Traduce el siguiente texto al español manteniendo:
+    Eres un traductor literario profesional. Traduce el siguiente texto al {target_language} manteniendo:
     1. El estilo literario y tono original (prosa, poesía, técnico, etc.)
     2. Todos los recursos estilísticos (metáforas, símiles, aliteraciones)
     3. El ritmo y cadencia de las frases
@@ -19,7 +19,7 @@ class TranslationPrompts:
     """
     
     OPENAI_PROMPT = """
-    Como experto en traducción literaria, realiza una traducción al español que preserve:
+    Como experto en traducción literaria, realiza una traducción al {target_language} que preserve:
     
     CARACTERÍSTICAS A CONSERVAR:
     - Estilo y voz del autor
@@ -32,7 +32,7 @@ class TranslationPrompts:
     DIRECTRICES:
     1. Mantener TODA puntuación y saltos de línea originales
     2. Conservar nombres propios y términos técnicos
-    3. Preservar juegos de palabras (crear equivalentes en español cuando sea posible)
+    3. Preservar juegos de palabras (crear equivalentes en {target_language} cuando sea posible)
     4. Mantener referencias culturales (añadir nota explicativa breve entre [ ] solo si es esencial)
     5. No modernizar lenguaje arcaico
     6. Respetar dialectos y sociolectos
@@ -47,7 +47,7 @@ class TranslationPrompts:
     1. Conservar TODO el contenido de la traducción base
     2. Mejorar la fluidez literaria respetando el estilo original
     3. Ajustar solo cuando haya:
-       - Frases antinaturales en español
+       - Frases antinaturales en {target_language}
        - Pérdida de recursos estilísticos
        - Errores de registro lingüístico
     4. Mantener terminología especializada y nombres propios
