@@ -1,31 +1,10 @@
-import logging
-from config.settings import settings
-from utils.api_utils import ask_deepseek, ask_openai
+import sys
+import os
 
-# Configuración básica de logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+# Agrega la ruta raíz del proyecto al sys.path para manejar las importaciones
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-def main():
-    print("Configuración cargada:")
-    print(f"Modelo DeepSeek: {settings.DEEPSEEK_MODEL}")
-    print(f"Modelo OpenAI: {settings.OPENAI_MODEL}")
-    
-    prompt = "Explica la teoría de la relatividad en 3 líneas"
-    
-    print("\nConsultando DeepSeek...")
-    deepseek_response = ask_deepseek(prompt)
-    print(f"Respuesta DeepSeek:\n{deepseek_response}")
-    
-    print("\nConsultando OpenAI...")
-    openai_response = ask_openai(prompt)
-    print(f"Respuesta OpenAI:\n{openai_response}")
+from ui import streamlit_ui
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        logging.exception("Error fatal en la aplicación")
-        print(f"Error crítico: {e}. Por favor revisa los logs.")
+    streamlit_ui.main_ui()
