@@ -18,14 +18,14 @@ def setup_streamlit():
     <style>
         /* Estilos personalizados para el tema oscuro */
         .stButton > button {
-            background-color: #FF4B4B !important; /* Rojo vibrante */
+            background-color: #FF4B4B !important;
             color: white !important;
             border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
         }
         .stButton > button:hover {
-            background-color: #A32828 !important; /* Un rojo más oscuro al pasar el ratón */
+            background-color: #A32828 !important;
         }
         
         .stExpander, .stStatus {
@@ -54,6 +54,14 @@ def setup_streamlit():
 def render_sidebar():
     with st.sidebar:
         st.header("⚙️ Configuración de Traducción")
+        
+        target_language = st.selectbox(
+            "Traducir a:",
+            ("Inglés", "Francés", "Alemán"),
+            index=0,
+            help="Selecciona el idioma de destino para la traducción"
+        )
+        
         model_choice = st.selectbox(
             "Selecciona el modelo de traducción:",
             list(settings.MODELS.keys()),
@@ -79,15 +87,16 @@ def render_sidebar():
         **Instrucciones:**
         1. Sube tu documento (PDF, DOCX, TXT)
         2. Selecciona modelo de traducción
-        3. Inicia la traducción
-        4. Descarga el resultado conservando el estilo literario
+        3. Selecciona el idioma de destino
+        4. Inicia la traducción
+        5. Descarga el resultado conservando el estilo literario
         """)
         
-        return model_choice, preserve_special, cultural_notes
+        return model_choice, target_language, preserve_special, cultural_notes
 
 def main_ui():
     setup_streamlit()
-    model_choice, preserve_special, cultural_notes = render_sidebar()
+    model_choice, target_language, preserve_special, cultural_notes = render_sidebar()
     
     uploaded_file = st.file_uploader(
         "Sube tu obra literaria",
@@ -106,16 +115,15 @@ def main_ui():
         
         if st.button("Realizar Traducción Literaria", type="primary", use_container_width=True):
             try:
-                # Usar el chunk_size de la configuración
                 translator = LiteraryTranslator(chunk_size=settings.CHUNK_SIZE)
                 
                 with st.spinner("Procesando documento..."):
                     original_content = FileHandler.read_file(uploaded_file)
                 
-                st.info(f"Usando modelo: **{model_choice}**")
+                st.info(f"Usando modelo: **{model_choice}** y traduciendo a **{target_language}**")
                 
                 with st.status("Proceso de traducción literaria en curso...", expanded=True) as status:
-                    translated_content = translator.translate(original_content, model_choice)
+                    translated_content = translator.translate(original_content, model_choice, target_language)
                     status.update(label="✓ Traducción completada con fidelidad literaria", state="complete")
                     
                     with st.expander("Vista previa de la traducción", expanded=False):
@@ -123,7 +131,8 @@ def main_ui():
                     
                     file_bytes, output_name = FileHandler.create_output_file(
                         translated_content,
-                        uploaded_file.name
+                        uploaded_file.name,
+                        target_language
                     )
                     
                     st.download_button(
