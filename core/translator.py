@@ -8,12 +8,15 @@ class LiteraryTranslator:
         self.chunk_size = chunk_size
     
     def translate(self, content, model_choice):
+        # Limpiar el texto antes de procesarlo
+        cleaned_content = TextProcessor.clean_text(content)
+        
         if model_choice == "DeepSeek-R1 (Literario)":
-            return self._translate_chunks(content, self._translate_deepseek)
+            return self._translate_chunks(cleaned_content, self._translate_deepseek)
         elif model_choice == "GPT-4-Turbo (Literatura Fina)":
-            return self._translate_chunks(content, self._translate_openai)
+            return self._translate_chunks(cleaned_content, self._translate_openai)
         else:
-            return self._hybrid_translation(content)
+            return self._hybrid_translation(cleaned_content)
     
     def _translate_chunks(self, content, translate_func):
         chunks = TextProcessor.split_preserving_context(content, self.chunk_size)
