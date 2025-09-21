@@ -2,6 +2,19 @@ import re
 
 class TextProcessor:
     @staticmethod
+    def clean_text(text):
+        """
+        Limpia el texto eliminando espacios y saltos de línea redundantes.
+        """
+        # Elimina múltiples saltos de línea, dejando solo uno
+        cleaned_text = re.sub(r'\n\s*\n', '\n\n', text)
+        # Elimina los espacios en blanco al inicio y final de cada línea
+        cleaned_text = re.sub(r'^[ \t]+|[ \t]+$', '', cleaned_text, flags=re.M)
+        # Elimina cualquier carácter de espacio no imprimible
+        cleaned_text = re.sub(r'[\u200B-\u200D\uFEFF]', '', cleaned_text)
+        return cleaned_text
+    
+    @staticmethod
     def preserve_literary_structure(original, translated):
         original_paragraphs = re.split(r'\n\s*\n', original)
         translated_paragraphs = re.split(r'\n\s*\n', translated)
