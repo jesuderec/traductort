@@ -50,4 +50,4 @@ class FileHandler:
         if not output_name.endswith('.docx'):
             output_name = output_name.rsplit('.', 1)[0] + '.docx'
         
-        return bio.getvalue(), output_namet_name
+        return bio.getvalue(), output_name
