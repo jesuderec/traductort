@@ -16,17 +16,36 @@ def setup_streamlit():
     
     st.markdown("""
     <style>
-        /* Estilos personalizados */
-        .stButton>button {
-            background-color: #4CAF50 !important;
+        /* Estilos personalizados para el tema oscuro */
+        .stButton > button {
+            background-color: #FF4B4B !important; /* Rojo vibrante */
             color: white !important;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .stButton > button:hover {
+            background-color: #A32828 !important; /* Un rojo más oscuro al pasar el ratón */
+        }
+        
+        .stExpander, .stStatus {
+            border-color: #262730 !important;
+            background-color: #12141A !important;
+        }
+
+        .stText {
+            font-family: monospace;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #FF4B4B;
         }
     </style>
     """, unsafe_allow_html=True)
     
     st.title("✒️ Traductor Literario Profesional")
     st.markdown("""
-    <div style="text-align: center; border-bottom: 1px solid #d4c9b1; padding-bottom: 20px; margin-bottom: 30px;">
+    <div style="text-align: center; border-bottom: 1px solid #262730; padding-bottom: 20px; margin-bottom: 30px; color: #ADADAD;">
         <i>Traducciones que respetan la voz del autor, recursos estilísticos y esencia literaria</i>
     </div>
     """, unsafe_allow_html=True)
