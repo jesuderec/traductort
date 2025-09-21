@@ -15,7 +15,7 @@ class Settings:
         self.OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         
         # Configuración adicional
-        self.CHUNK_SIZE = 2000  # Tamaño de fragmentos
+        self.CHUNK_SIZE = 1000  # Tamaño de fragmentos
         self.TIMEOUT = 30       # Timeout para API
         self.MODELS = {         # Modelos para UI
             "DeepSeek-R1 (Literario)": "DeepSeek-R1 (Literario)",
