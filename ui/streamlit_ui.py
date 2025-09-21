@@ -2,6 +2,9 @@ import streamlit as st
 from config.settings import settings
 from core.file_handler import FileHandler
 from core.translator import LiteraryTranslator
+import logging
+
+logger = logging.getLogger(__name__)
 
 def setup_streamlit():
     st.set_page_config(
@@ -27,6 +30,7 @@ def setup_streamlit():
         <i>Traducciones que respetan la voz del autor, recursos estilísticos y esencia literaria</i>
     </div>
     """, unsafe_allow_html=True)
+    logger.info("Interfaz de Streamlit configurada.")
 
 def render_sidebar():
     with st.sidebar:
@@ -113,6 +117,7 @@ def main_ui():
             
             except Exception as e:
                 st.error(f"Error durante la traducción: {str(e)}")
+                logger.error(f"Error en la interfaz de usuario: {e}")
 
 if __name__ == "__main__":
     main_ui()
