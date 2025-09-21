@@ -1,5 +1,7 @@
+# Contenido de requirements.txt
 streamlit
 openai
 python-dotenv
 pdfminer.six
 python-docx
+google-generativeai
